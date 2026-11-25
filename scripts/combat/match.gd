@@ -378,6 +378,16 @@ func _fight_tick() -> void:
 			_time_over()
 			return
 	for i in 2:
+		if training and fighters[i].hp <= 0.0 and fighters[i].state in [Fighter.S.KO, Fighter.S.KNOCKDOWN]:
+			# entraînement : pas de fin de manche, le combattant se relève avec sa vie
+			var kf := fighters[i]
+			kf.hp = kf.data.max_hp
+			var air := kf.position.y > 0.01
+			kf._enter(Fighter.S.KNOCKDOWN, &"knock_fly" if air else &"lying")
+			kf.kd_phase = 0 if air else 1
+			if hud:
+				hud.side_msg(1 - i, "K.O. (entraînement)")
+			continue
 		if fighters[i].hp <= 0.0 and fighters[i].state in [Fighter.S.KO, Fighter.S.KNOCKDOWN] :
 			if fighters[i].state != Fighter.S.KO:
 				fighters[i]._enter(Fighter.S.KO, &"lying")
@@ -609,6 +619,11 @@ func pin_count(a: Fighter, n: int) -> void:
 	excitement += 0.2
 
 func pin_win(a: Fighter, d: Fighter) -> void:
+	if training:
+		if hud:
+			hud.announce("3 ! (entraînement)", 1.0, Color.WHITE)
+		pin_escape(a, d)
+		return
 	d.hp = 0.0
 	d._enter(Fighter.S.KO, &"lying")
 	a._enter(Fighter.S.RECOVER, &"getup")

@@ -673,8 +673,24 @@ func _run_selftest() -> void:
 					for k in ["hits", "grabs", "powers", "parries", "transforms", "ults"]:
 						results[key][k] = results[key].get(k, 0) + res[0].stats[k][0] + res[0].stats[k][1]
 				m.free()
+	# mode entraînement : ne doit jamais se terminer, la vie se régénère
+	var tm := Match.new()
+	add_child(tm)
+	tm.setup(Roster.by_id(&"mokonzi"), Roster.by_id(&"nkosi"), 0, 1, 3, true, true, true)
+	(tm.ais[0] as FighterAI).setup(tm.fighters[0], 3)
+	tm.set_physics_process(false)
+	var training_ok := [true]
+	tm.finished.connect(func(_r): training_ok[0] = false)
+	for i in 60 * 60 * 3:
+		tm.step()
+		if tm.phase != Match.Phase.FIGHT and i > 200:
+			training_ok[0] = false
+	if not training_ok[0]:
+		errors += 1
+		print("ANOMALIE entraînement : le match s'est terminé (phase %d)" % tm.phase)
+	tm.free()
 	errors += problems.size()
-	var report := {"results": results, "errors": errors, "data_problems": problems.size(), "ticks": total_ticks,
+	var report := {"training_ok": training_ok[0],"results": results, "errors": errors, "data_problems": problems.size(), "ticks": total_ticks,
 		"avg_logic_us_per_tick": float(sum_us) / maxf(1, total_ticks), "max_logic_us": max_us,
 		"wall_ms": Time.get_ticks_msec() - t0}
 	print("SELFTEST ", JSON.stringify(report, "  "))

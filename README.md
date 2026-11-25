@@ -91,3 +91,11 @@ shaders/      peau + peintures corporelles, tissu wax, aura, foule instanciée, 
 
 La logique de combat (`combat/`) ne dépend jamais du rendu : `Match.step()` peut tourner sans
 aucun nœud visuel (c'est ce que fait `--selftest`).
+
+## Captures (rendu logiciel, sans GPU)
+
+| Transformation « Couronne de Feu » (renderer Mobile/Vulkan) | Combat (renderer Mobile/Vulkan) |
+|---|---|
+| ![](docs/captures/transformation_vulkan.jpg) | ![](docs/captures/combat_vulkan.jpg) |
+| **Commandes tactiles (renderer Compatibility)** | **Sélection du combattant** |
+| ![](docs/captures/commandes_tactiles.jpg) | ![](docs/captures/selection.jpg) |
