@@ -8,6 +8,14 @@ le tout dans l'univers du catch populaire de Kinshasa.
 > Aucun personnage, animation, musique ou ressource d'un jeu existant n'est utilisé.
 > Modèles, animations, textures, sons et musique sont **générés par le code** du projet.
 
+## 📱 Télécharger l'APK de test
+
+**[⬇️ catch243-v0.1.0-arm64.apk](apk/catch243-v0.1.0-arm64.apk?raw=1)** (26 Mo, Android 5.0+, téléphones 64 bits ARM)
+
+Installation : télécharger le fichier sur le téléphone, l'ouvrir, puis autoriser
+« Installer des applications inconnues » pour le navigateur ou le gestionnaire de fichiers.
+Il s'agit d'une version de test signée avec une clé de debug.
+
 Version actuelle : **0.1.0 — premier prototype jouable** (voir [`docs/RAPPORT_PROTOTYPE.md`](docs/RAPPORT_PROTOTYPE.md)).
 
 ## Contenu du prototype
@@ -27,7 +35,7 @@ Version actuelle : **0.1.0 — premier prototype jouable** (voir [`docs/RAPPORT_
 | IA simple | ✅ 4 niveaux (Facile, Normal, Difficile, Maître) |
 | Victoire / défaite | ✅ manches, chrono, K.O., tombé (1-2-3), temps écoulé, écran de résultats |
 | Bonus | garde, contre (parade), contre-attaque après esquive, immobilisation, ultime + technique de finition, entraînement, tournoi, survie, déblocage de tenues |
-| APK de test | ✅ `build/catch243-debug.apk` (arm64-v8a + armeabi-v7a, signé debug) |
+| APK de test | ✅ [`apk/catch243-v0.1.0-arm64.apk`](apk/catch243-v0.1.0-arm64.apk?raw=1) (arm64-v8a, signé debug) |
 
 ## Lancer le projet
 
@@ -63,7 +71,8 @@ godot --path . -- --shot=fight --advance=240 --out=capture.png   # capture d'éc
 
 Le fichier `export_presets.cfg` contient deux préréglages :
 
-- **Android APK** (debug, sans Gradle) : `godot --headless --path . --export-debug "Android APK" build/catch243-debug.apk`
+- **Android APK arm64** (debug, publié dans `apk/`) : `godot --headless --path . --export-debug "Android APK arm64" apk/catch243-v0.1.0-arm64.apk`
+- **Android APK** (debug universel arm64 + armv7, 52 Mo, non versionné) : `godot --headless --path . --export-debug "Android APK" build/catch243-debug.apk`
 - **Android AAB** (release, build Gradle) :
   `godot --headless --path . --install-android-build-template --export-release "Android AAB" build/catch243-release.aab`
   avec le keystore de release fourni par variables d'environnement
